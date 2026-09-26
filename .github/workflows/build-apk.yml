@@ -57,6 +57,21 @@ jobs:
           fi
           chmod +x gradlew
 
+      - name: Create Missing Keystore and Configs
+        run: |
+          # 1. Generate default debug keystore jahan Gradle dhoondh raha hai
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          
+          # Agar project root ya app folder me chahiye to copy karein
+          cp debug.keystore app/debug.keystore 2>/dev/null || true
+          cp debug.keystore ${{ env.TARGET_DIR }}/debug.keystore 2>/dev/null || true
+
+          # 2. Agar google-services.json missing hai to dummy create karein taaki build na ruke
+          if [ ! -f "app/google-services.json" ]; then
+            mkdir -p app
+            echo '{"project_info":{"project_number":"123456789","project_id":"dummy-app"},"client":[{"client_info":{"mobilesdk_app_id":"1:123456789:android:abcdef","android_client_info":{"package_name":"com.example.app"}},"api_key":[{"current_key":"dummy_key"}]}]}' > app/google-services.json
+          fi
+
       - name: Build Debug APK
         run: |
           cd ${{ env.TARGET_DIR }}
