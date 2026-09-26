@@ -1,0 +1,7 @@
+{
+  "name": "CAD Mobile Viewer & Editor",
+  "description": "Professional 2D CAD viewer and editor for DWG/DXF drawings with modular engine architecture, responsive layout, and dark drafting canvas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

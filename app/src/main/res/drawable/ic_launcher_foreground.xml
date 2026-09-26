@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Center coordinate is (54, 54), inside safe 66dp area (21 to 87) -->
+    <!-- CAD Blueprint Drafting Compass & Caliper Symbol -->
+    <!-- Top hinge pivot -->
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M54,25 A6,6 0 1,0 54,37 A6,6 0 1,0 54,25 Z" />
+    <path
+        android:fillColor="#0A1128"
+        android:pathData="M54,28.5 A2.5,2.5 0 1,0 54,33.5 A2.5,2.5 0 1,0 54,28.5 Z" />
+
+    <!-- Left compass leg -->
+    <path
+        android:pathData="M51,34 L32,77 L36,79 L54,37 Z"
+        android:fillColor="#00E5FF" />
+    <!-- Left needle point -->
+    <path
+        android:pathData="M32,77 L28,85 L35,80 Z"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Right compass leg with pencil/stylus nib -->
+    <path
+        android:pathData="M54,37 L72,77 L76,75 L57,34 Z"
+        android:fillColor="#2979FF" />
+    <!-- Right drafting lead -->
+    <path
+        android:pathData="M73,76 L80,85 L76,75 Z"
+        android:fillColor="#00E5FF" />
+
+    <!-- Measuring arc between legs -->
+    <path
+        android:pathData="M37,60 A24,24 0 0,0 71,60"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round" />
+
+    <!-- Calibration tick marks on the measuring arc -->
+    <path
+        android:pathData="M44,56.5 L43,62.5 M54,54.5 L54,61 M64,56.5 L65,62.5"
+        android:strokeWidth="1.5"
+        android:strokeColor="#00E5FF" />
+
+    <!-- Corner Drafting Dimensions -->
+    <path
+        android:pathData="M24,24 L30,24 M24,24 L24,30 M84,24 L78,24 M84,24 L84,30 M24,84 L30,84 M24,84 L24,78 M84,84 L78,84 M84,84 L84,78"
+        android:strokeWidth="1.2"
+        android:strokeColor="#5372A7"
+        android:strokeLineCap="square" />
+</vector>
