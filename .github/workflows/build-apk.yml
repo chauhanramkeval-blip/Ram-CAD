@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js (If web/Capacitor based)
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -34,15 +34,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Setup Gradle
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
 
       - name: Prepare Gradlew and Permissions
         run: |
-          # Android directory detect karein
           if [ -d "android" ]; then
             PROJECT_DIR="android"
           else
@@ -52,7 +48,6 @@ jobs:
 
           cd $PROJECT_DIR
 
-          # Agar gradlew nahi hai toh naya wrapper generate karein
           if [ ! -f "gradlew" ]; then
             echo "gradlew not found, generating wrapper..."
             gradle wrapper
