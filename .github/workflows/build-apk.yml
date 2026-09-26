@@ -1,30 +1,69 @@
-      - name: Accept Android Licenses & Set SDK Path
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Build Web Assets (If needed)
+        run: |
+          if [ -f "package.json" ]; then
+            npm install
+            npm run build --if-present
+            if npx cap --version >/dev/null 2>&1; then
+              npx cap sync android || true
+            fi
+          fi
+
+      - name: Accept Licenses & Set SDK
         run: |
           yes | sdkmanager --licenses || true
-          
-          # Android directory check karein
           if [ -d "android" ]; then
-            PROJECT_DIR="android"
+            TARGET_DIR="android"
           else
-            PROJECT_DIR="."
+            TARGET_DIR="."
           fi
-          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          echo "TARGET_DIR=$TARGET_DIR" >> $GITHUB_ENV
+          echo "sdk.dir=$ANDROID_HOME" > $TARGET_DIR/local.properties
 
-          # local.properties create karein
-          echo "sdk.dir=$ANDROID_HOME" > $PROJECT_DIR/local.properties
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
 
-      - name: Prepare Gradlew and Permissions
+      - name: Prepare Gradlew
         run: |
-          cd ${{ env.PROJECT_DIR }}
-
+          cd ${{ env.TARGET_DIR }}
           if [ ! -f "gradlew" ]; then
-            echo "gradlew not found, generating wrapper..."
+            echo "Generating gradlew wrapper..."
             gradle wrapper
           fi
-
           chmod +x gradlew
 
       - name: Build Debug APK
         run: |
-          cd ${{ env.PROJECT_DIR }}
-          ./gradlew assembleDebug --no-daemon --info
+          cd ${{ env.TARGET_DIR }}
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: '**/*.apk'
